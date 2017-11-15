@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+    <div class="row" style="margin-top: 50px;">
+        <h2>User: @ViewBag.Username</h2>
+
+    </div>
+<p style="float: right">
+    @Html.ActionLink("Logout", "LogOff", "Home")
+</p>
+<table>
+    <tr>
+        <td>
+            <legend>
+                @Html.ActionLink("Item", "Index", "Item") ||
+            </legend>
+        </td>
+       
+        <td>
+            @Html.ActionLink("Generate cardNumber", "RandomIndex", "Random")
+        </td>
+        
+    </tr>
+</table>
+
+
+
+

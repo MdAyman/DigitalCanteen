@@ -1,0 +1,50 @@
+﻿@model DigitalCanteen.Models.Entities.AccountDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AccountDetail</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserDetail.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserDetail.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialBalance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialBalance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Refil)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Refil)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

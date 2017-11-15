@@ -1,0 +1,18 @@
+﻿@model IEnumerable<DigitalCanteen.Models.Entities.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<h3>
+ 
+    @Html.ActionLink("Refil_Balance", "RefilBalance", "Account") ||
+    @Html.ActionLink("Account Details", "Index", "Account") ||
+    @Html.ActionLink("Item", "ItemList", "Item")
+</h3>
+   
+
+<p style="float: right">
+    @Html.ActionLink("Logout", "LogOff", "Home")
+</p>
