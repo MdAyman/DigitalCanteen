@@ -188,6 +188,7 @@
     <Content Include="Views\Random\RandomIndex.cshtml" />
     <Content Include="Views\Account\RefilBalance.cshtml" />
     <Content Include="Views\Account\Success.cshtml" />
+    <Content Include="Views\Account\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -20,7 +20,10 @@ namespace DigitalCanteen.Controllers
         // GET: /Account/
         public ActionResult Index()
         {
-            var accountdetails = db.AccountDetails.Include(a => a.UserDetail);
+            var currentuser = (UserDetail)Session["User"];
+
+            var accountdetails = db.AccountDetails.Include(r => r.UserDetail).Where(r => r.UserDetail.UserId == currentuser.UserId);
+            
             return View(accountdetails.ToList());
         }
 
@@ -39,51 +42,66 @@ namespace DigitalCanteen.Controllers
         public ActionResult RefilBalance(RandomNo model)
         {
             var find = db.RandomNoes.FirstOrDefault(c => c.RandomNumber == model.RandomNumber && c.IsCheck.Equals(false));
-            find.IsCheck = true;
+
+
             if (find != null)
             {
-                var currentuser = (UserDetail)Session["User"]; //current logged in user
-               // var taka = db.AccountDetails.Include(r => r.UserDetail).Where(c => c.UserDetail.UserId == currentuser.UserId);
-                int amount = model.Amount; //amount from model
+                var currentuser = (UserDetail) Session["User"]; //current logged in user
+                // var taka = db.AccountDetails.Include(r => r.UserDetail).Where(c => c.UserDetail.UserId == currentuser.UserId);
+                int amount = find.Amount; //amount from model
 
                 //var query = from usr in db.AccountDetails
                 //    where usr.UserId == currentuser.UserId
                 //    select User;
 
                 var res =
-                   db.AccountDetails.Include(r => r.UserDetail).FirstOrDefault(r => r.UserDetail.UserId == currentuser.UserId);
-                    if (res.Balance != null)
-                    {
-                        res.Balance += amount;
-                    }
+                    db.AccountDetails.Include(r => r.UserDetail)
+                        .FirstOrDefault(r => r.UserDetail.UserId == currentuser.UserId);
+                if (res.Balance != null)
+                {
+                    res.Balance += amount;
+
+                }
+                
                 //var res =
                 //    db.AccountDetails.Include(r => r.UserDetail).Where(r => r.UserDetail.UserId == currentuser.UserId)
                 //        .Select(r => r.Balance);
 
-                
+
 
                 //foreach (var value in res)
                 //{
                 //    value.Balance = amount;
                 //}
-                   try
-                   {
-                       db.SaveChanges(); 
-                   }
-                   catch (Exception e)
-                   {
+                try
+                {
+                    find.IsCheck = true;
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
 
-                       Console.WriteLine(e);
-                   }
+                    Console.WriteLine(e);
+                }
+                
 
                 //ViewData["msg"] = res;
-                return RedirectToAction("Success","Account");
+                return RedirectToAction("Success", "Account");
 
+            }
+            else
+            {
+                return RedirectToAction("Error", "Account");
             }
             return View(model);
         }
 
         public ActionResult Success()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
         {
             return View();
         }
