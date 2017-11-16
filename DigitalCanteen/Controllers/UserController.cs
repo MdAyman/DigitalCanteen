@@ -22,6 +22,7 @@ namespace DigitalCanteen.Controllers
             }
             return RedirectToAction("Login", "Home");
         }
+
         public ActionResult UserIndex()
         {
             if (Session["USER"] != null)
@@ -51,26 +52,38 @@ namespace DigitalCanteen.Controllers
             {
                 _context = new DataContext();
 
-                try
-                {
-                    _context.UserDetails.Add(model);
-                    var accDetail = new AccountDetail();
-                    accDetail.UserId = model.UserId;
-                    accDetail.Balance = 0;
-                    _context.AccountDetails.Add(accDetail);
+                var regi = _context.UserCredentials.FirstOrDefault(p => p.Username == model.UserCredential.Username);
 
-                    _context.SaveChanges();
-                }
-                catch (Exception exception)
+                if (regi == null)
                 {
-                    ModelState.AddModelError("", exception.ToString());
-                    return View(model);
+                    try
+                    {
+                        _context.UserDetails.Add(model);
+                        var accDetail = new AccountDetail();
+                        accDetail.UserId = model.UserId;
+                        accDetail.Balance = 0;
+                        _context.AccountDetails.Add(accDetail);
+
+                        _context.SaveChanges();
+                    }
+
+                    catch
+                        (Exception exception)
+                    {
+                        ModelState.AddModelError("", exception.ToString());
+                        return View(model);
+                    }
+
+                    return RedirectToAction("Login", "Home");
                 }
 
-                return RedirectToAction("Login", "Home");
+                else
+                {
+                    return RedirectToAction("Register", "User");
+                }
+                // If we got this far, something failed, redisplay form
+              //  return View(model);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
     }
